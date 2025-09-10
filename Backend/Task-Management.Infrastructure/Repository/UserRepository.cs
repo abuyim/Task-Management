@@ -4,7 +4,7 @@ using Task_Management.Domain.Models;
 
 namespace Task_Management.Infrastructure.Repository
 {
-    class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly TaskDbContext _dbContext;
 

@@ -10,11 +10,14 @@
   <ItemGroup>
     <Folder Include="Commands\Tasks\" />
     <Folder Include="Commands\Users\" />
-    <Folder Include="Mapping\" />
     <Folder Include="Services\" />
     <Folder Include="Validators\" />
     <Folder Include="Queries\Tasks\" />
     <Folder Include="Queries\Users\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
   </ItemGroup>
 
   <ItemGroup>

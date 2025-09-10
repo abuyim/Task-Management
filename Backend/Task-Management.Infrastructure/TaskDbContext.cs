@@ -34,6 +34,7 @@ namespace Task_Management.Infrastructure
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
+                    Id = 1,
                     Email = "admin@test.com",
                     Username = "admin",
                     Role = RoleType.Admin,
