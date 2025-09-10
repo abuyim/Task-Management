@@ -12,16 +12,14 @@
 *.cache
 package.assets.json
 
-# Build results
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Tt]estResults/
-[Bb]uild[Ll]og.*
-*.dbmdl
-*.bak
-*.Backup
-*.tmp
+# Build results (ignore everywhere in Backend)
+Backend/**/bin/
+Backend/**/obj/
+Backend/**/Debug/
+Backend/**/Release//
+Backend/**/[Pp]ublish/
+Backend/**/[Tt]est[Rr]esults/
+Backend/**/[Bb]uild[Ll]og.*
 
 # NuGet
 *.nupkg
@@ -31,11 +29,6 @@ project.fragment.lock.json
 artifacts/
 packages/
 .nuget/
-
-# Others
-*.swp
-*.DS_Store
-Thumbs.db
 
 # =========================
 #  React / Node
@@ -54,3 +47,34 @@ dist/
 .env
 .env.local
 .env.*.local
+
+# =========================
+#  OS generated
+# =========================
+*.swp
+*.DS_Store
+Thumbs.db
+/Backend/Task-Management.API/obj/Debug/net9.0/Task-Management.API.AssemblyInfoInputs.cache
+/Backend/Task-Management.API/obj/Debug/net9.0/Task-Management.API.assets.cache
+/Backend/Task-Management.API/obj/Debug/net9.0/Task-Management.API.AssemblyInfo.cs
+/Backend/Task-Management.API/obj/Debug/net9.0/Task-Management.API.csproj.AssemblyReference.cache
+/Backend/Task-Management.API/obj/Debug/net9.0/Task-Management.API.GeneratedMSBuildEditorConfig.editorconfig
+/Backend/Task-Management.API/obj/project.assets.json
+/Backend/Task-Management.API/obj/project.nuget.cache
+/Backend/Task-Management.API/obj/Task-Management.API.csproj.nuget.dgspec.json
+/Backend/Task-Management.API/obj/Task-Management.API.csproj.nuget.g.props
+/Backend/Task-Management.API/obj/Task-Management.API.csproj.nuget.g.targets
+/Backend/Task-Management.Application/obj/Debug/net9.0/Task-Management.Application.AssemblyInfo.cs
+/Backend/Task-Management.Application/obj/Debug/net9.0/Task-Management.Application.AssemblyInfoInputs.cache
+/Backend/Task-Management.Application/obj/Debug/net9.0/Task-Management.Application.assets.cache
+/Backend/Task-Management.Application/obj/project.assets.json
+/Backend/Task-Management.Application/obj/project.nuget.cache
+/Backend/Task-Management.Application/obj/Task-Management.Application.csproj.nuget.dgspec.json
+/Backend/Task-Management.Application/obj/Task-Management.Application.csproj.nuget.g.targets
+/Backend/Task-Management.Infrastructure/obj/Debug/net9.0/Task-Management.Infrastructure.assets.cache
+/Backend/Task-Management.Infrastructure/obj/project.assets.json
+/Backend/Task-Management.Infrastructure/obj/Task-Management.Infrastructure.csproj.nuget.dgspec.json
+/Backend/Task-Management.Infrastructure/obj/Task-Management.Infrastructure.csproj.nuget.g.targets
+/Backend/.vs/Task-Management/DesignTimeBuild/.dtbcache.v2
+/Backend/.vs/Task-Management/v17/.suo
+/Backend/.vs/Task-Management/v17/DocumentLayout.json
