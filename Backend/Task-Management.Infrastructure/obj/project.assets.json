@@ -1599,6 +1599,19 @@
           }
         }
       },
+      "Task-Management.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Task-Management.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Task-Management.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Task-Management.Application.dll": {}
+        }
+      },
       "Task-Management.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -4712,6 +4725,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Task-Management.Application/1.0.0": {
+      "type": "project",
+      "path": "../Task-Management.Application/Task-Management.Application.csproj",
+      "msbuildProject": "../Task-Management.Application/Task-Management.Application.csproj"
+    },
     "Task-Management.Domain/1.0.0": {
       "type": "project",
       "path": "../Task-Management.Domain/Task-Management.Domain.csproj",
@@ -4723,6 +4741,7 @@
       "Microsoft.EntityFrameworkCore >= 9.0.9",
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.9",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.9",
+      "Task-Management.Application >= 1.0.0",
       "Task-Management.Domain >= 1.0.0"
     ]
   },
@@ -4758,6 +4777,9 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
+            "D:\\Task-Management\\Backend\\Task-Management.Application\\Task-Management.Application.csproj": {
+              "projectPath": "D:\\Task-Management\\Backend\\Task-Management.Application\\Task-Management.Application.csproj"
+            },
             "D:\\Task-Management\\Backend\\Task-Management.Domain\\Task-Management.Domain.csproj": {
               "projectPath": "D:\\Task-Management\\Backend\\Task-Management.Domain\\Task-Management.Domain.csproj"
             }

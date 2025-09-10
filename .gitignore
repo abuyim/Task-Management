@@ -1,0 +1,56 @@
+# =========================
+#  Visual Studio / .NET
+# =========================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vsidx
+*.bin
+*.log
+*.cache
+package.assets.json
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Tt]estResults/
+[Bb]uild[Ll]og.*
+*.dbmdl
+*.bak
+*.Backup
+*.tmp
+
+# NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+packages/
+.nuget/
+
+# Others
+*.swp
+*.DS_Store
+Thumbs.db
+
+# =========================
+#  React / Node
+# =========================
+node_modules/
+build/
+dist/
+.npm/
+.yarn/
+.next/
+.cache/
+
+# =========================
+#  Environment
+# =========================
+.env
+.env.local
+.env.*.local
