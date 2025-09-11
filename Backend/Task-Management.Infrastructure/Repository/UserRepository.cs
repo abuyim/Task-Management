@@ -41,5 +41,15 @@ namespace Task_Management.Infrastructure.Repository
             _dbContext.Users.Update(model);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<User> GetUserByEmailAsync(string Email)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == Email);
+        }
+
+        public async Task<User> GetUserByUserNameAsync(string UserName)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == UserName);
+        }
     }
 }

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Task_Management.Application.Commands.Users;
 using Task_Management.Application.Interfaces;
 using Task_Management.Application.Mapping;
+using Task_Management.Application.Services;
 using Task_Management.Infrastructure;
 using Task_Management.Infrastructure.Repository;
 
@@ -16,7 +18,7 @@ services.AddAutoMapper(cfg =>
 });
 var conn = builder.Configuration.GetConnectionString("TaskMgtConnection");
 services.AddDbContext<TaskDbContext>(options => options.UseSqlServer(conn));
-services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly, typeof(CreateUserCommand).Assembly));
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -28,6 +30,7 @@ services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
 
 services.AddScoped<ITaskRepository, TaskRepository>();
 services.AddScoped<IUserRepository, UserRepository>();
+services.AddScoped<IJwtService, JwtService>();
 
 var app = builder.Build();
 
