@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using Task_Management.Application.Commands.Users;
 using Task_Management.Application.Interfaces;
 using Task_Management.Application.Mapping;
@@ -26,7 +28,26 @@ services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
 {
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
+services.AddAuthentication("Bearer")
+    .AddJwtBearer("JwtToken", options =>
+    {
+        var jwtSettigs = builder.Configuration.GetSection("Jwt");
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettigs["Issuer"],
+            ValidAudience = jwtSettigs["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                System.Text.Encoding.UTF8.GetBytes(jwtSettigs["Key"])
+            ),
 
+            NameClaimType = ClaimTypes.NameIdentifier,
+            RoleClaimType = ClaimTypes.Role
+        };
+    });
 
 services.AddScoped<ITaskRepository, TaskRepository>();
 services.AddScoped<IUserRepository, UserRepository>();
@@ -42,6 +63,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

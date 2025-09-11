@@ -26,7 +26,7 @@ namespace Task_Management.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AuthResponse>> CreateUserAsync([FromBody] CreateUserDto request)
+        public async Task<ActionResult<AuthResponseDto>> CreateUserAsync([FromBody] CreateUserDto request)
         {
             var command = new CreateUserCommand(request);
             var user = await _mediator.Send(command);

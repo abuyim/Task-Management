@@ -30,7 +30,7 @@ namespace Task_Management.Application.Dtos
         public string Password { get; set; }
     }
 
-    public class AuthResponse
+    public class AuthResponseDto
     {
         public UserDto User { get; set; }
         public string Token { get; set; }

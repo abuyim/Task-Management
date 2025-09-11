@@ -7,9 +7,9 @@ using Task_Management.Domain.Models;
 
 namespace Task_Management.Application.Commands.Users
 {
-    public record CreateUserCommand(CreateUserDto UserDto) : IRequest<AuthResponse>;
+    public record CreateUserCommand(CreateUserDto UserDto) : IRequest<AuthResponseDto>;
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, AuthResponse>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, AuthResponseDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ namespace Task_Management.Application.Commands.Users
             _jwtService = jwtService;
         }
 
-        public async Task<AuthResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<AuthResponseDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
 
             var checkUserByEmail = await _userRepository.GetUserByEmailAsync(request.UserDto.Email);
@@ -41,7 +41,7 @@ namespace Task_Management.Application.Commands.Users
             await _userRepository.CreateAsync(user);
             var token = _jwtService.GenerateToken(user, expDate);
             var userDto = _mapper.Map<UserDto>(user);
-            return new AuthResponse
+            return new AuthResponseDto
             {
                 Token = token,
                 User = userDto,

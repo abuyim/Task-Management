@@ -1,15 +1,25 @@
-import { Paper, Box, TextField, Button } from '@mui/material'
+import { Paper, Box, TextField, Button, Alert } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check';
 import React from 'react'
 import type { RegistrationFormValue } from '../types/types';
 import { useForm } from 'react-hook-form';
+import useAuthStore from '../stores/useAuthStore';
 
 export default function Registration() {
-     const {register, handleSubmit, formState:{errors}, watch} = useForm<RegistrationFormValue>()
+    const {registerUser, success} = useAuthStore();
+    const {register, handleSubmit, formState:{errors}, watch} = useForm<RegistrationFormValue>()
     const onRegister = async (data:RegistrationFormValue) => {
-      console.log(data);
+        try {
+            await registerUser(data);
+        } catch (error) {
+            console.error("Error: ", error);
+        }
     };
   return (
      <Paper elevation={5} sx={{ width:'40%', minWidth:400, mx:"auto", m:5, p:5, mt:2 }}>
+        {success && <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+            User registered successfully successful.
+        </Alert>}
         <Box component="form" onSubmit={handleSubmit(onRegister)} sx={{ display:"flex", flexDirection:"column", gap:3 }}>
             <TextField variant="filled" label="Username" type="text"
                 {...register("username",{required:"Username required",
