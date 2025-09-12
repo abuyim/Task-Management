@@ -38,7 +38,7 @@ namespace Task_Management.Infrastructure
                     Email = "admin@test.com",
                     Username = "admin",
                     Role = RoleType.Admin,
-                    Password = "$2a$12$EIXqJZbT2e6rF.8LxVoX9O5Xv3Fvwbz98gD3o3mFvJqHd.JdYz7bW", //test123
+                    Password = "$2a$11$GXEp1hOd2qjkBYpgTFp0NeaBtoKn5OukP/uqw1sVbYWbFMfKu8wle", //test123
                     CreatedAt = new DateTime(2025, 01, 01)
                 });
         }

@@ -1,15 +1,21 @@
-import React from 'react'
-import { Paper, Typography, Box, FormControl, InputLabel, Select, MenuItem, type SelectChangeEvent } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { Paper, Typography, Box, FormControl, InputLabel, Select, MenuItem, Button, type SelectChangeEvent, IconButton } from '@mui/material';
 import useAuthStore from '../../stores/useAuthStore';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import { type Task, TaskStatus, TaskStatusOptions } from '../../types/types';
+import { getDecodeToken } from '../../helpers/helper.functions';
+import useTaskStore from '../../stores/useTaskStore';
 
 interface TaskItemProps {
     task: Task;
     onStatusChange: (taskId: number, newStatus: TaskStatus)=>void
     onAssigneeChange: (taskId: number, assigneeId: number)=>void
+    onEditMode:(task:Task)=>void;
 }
-export default function TaskCard({task, onStatusChange, onAssigneeChange}:TaskItemProps) {
+export default function TaskCard({task, onStatusChange, onAssigneeChange, onEditMode}:TaskItemProps) {
     const {users} = useAuthStore();
+    const {deleteTask, getTasks} = useTaskStore();
     const status = task.status;
     const handleChange = (event:SelectChangeEvent<TaskStatus>) =>{
         onStatusChange(task.id, event?.target.value)
@@ -18,10 +24,25 @@ export default function TaskCard({task, onStatusChange, onAssigneeChange}:TaskIt
     const handleUserChange = (event:SelectChangeEvent<number>) =>{
         onAssigneeChange(task.id, event?.target.value)
     }
+
+    const deleteHandler = async()=>{
+        await deleteTask(task.id);
+        getTasks();
+    }   
+    
+    const editHandler = ()=>{
+        onEditMode(task);
+    }
   return (
-        <Paper elevation={3} sx={{ mx:3, my:1, p:3 }} variant='elevation'>
-            <Box sx={{ display:"flex", flexDirection:"column", justifyContent:"flex-start", alignItems:"flex-start"}}>
-                <Typography variant='h6' align='left' >{task.title}</Typography>
+        <Paper elevation={3} sx={{ mx:1, my:1, p:3 }} variant='elevation'>
+            <Box sx={{width:"100%", display:"flex", flexDirection:"column"}}>
+                <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Typography variant='h6' align='left' >{task.title}</Typography>
+                    <Box sx={{fontSize:"10px"}}>
+                        <IconButton onClick={editHandler} size="small" color='primary'><EditIcon/></IconButton>
+                        {getDecodeToken()?.role === "Admin" && <IconButton onClick={deleteHandler} size="small" color="error"><CloseIcon/></IconButton> }
+                    </Box>
+                </Box>
                 <Box>{task.description}</Box>
                     {task.assignee && (
                 <Typography variant='caption' sx={{ textAlign: 'left' }}>
@@ -46,7 +67,6 @@ export default function TaskCard({task, onStatusChange, onAssigneeChange}:TaskIt
                     </Select>
                 </FormControl>
                 </Box>
-
             </Box>
         </Paper>
   )

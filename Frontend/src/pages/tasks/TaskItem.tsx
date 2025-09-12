@@ -11,14 +11,15 @@ interface TaskItemProps {
     onStatusChange: (taskId: number, newStatus: TaskStatus)=>void;
     onAssigneeChange: (taskId: number, newAssignee:number)=>void;
     onOpen: ()=>void;
+    onEditMode:(task:Task)=>void;
 }
-export default function TaskItem({tasks,status, title,onStatusChange, onAssigneeChange, onOpen}:TaskItemProps) {
+export default function TaskItem({tasks,status, title,onStatusChange, onAssigneeChange, onOpen,onEditMode}:TaskItemProps) {
     const filteredTasks = tasks.filter(s=>s.status==status);
    
       return (
       <Paper elevation={5} sx={{ width: "30%", display:'flex', justifyContent:"space-between", flexDirection:"column"}} >
             <Box><Typography marginTop={3} variant='h6'> {title} </Typography>
-            {filteredTasks.map(task=><TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onAssigneeChange={onAssigneeChange} />)}
+            {filteredTasks.map(task=><TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onAssigneeChange={onAssigneeChange} onEditMode={onEditMode} />)}
             </Box>
             {status === TaskStatus.Todo && (
                 <Box display="flex" justifyContent="flex-end" alignItems="center" my={2} mx={1}>

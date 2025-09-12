@@ -30,7 +30,13 @@ namespace Task_Management.Application.Commands.Users
 
             if (checkUserByEmail != null || checkByUserName != null)
             {
-                throw new Exception("User already Exist with this email or uerName");
+                return new AuthResponseDto
+                {
+                    Token = null,
+                    User = null,
+                    Success = false,
+                    Message = "User already Exist with this email or uerName"
+                };
             }
             var user = _mapper.Map<User>(request.UserDto);
             user.CreatedAt = DateTime.UtcNow;
@@ -45,7 +51,9 @@ namespace Task_Management.Application.Commands.Users
             {
                 Token = token,
                 User = userDto,
-                Expiration = expDate
+                Expiration = expDate,
+                Success = true,
+                Message = "User created successfully."
             };
 
         }

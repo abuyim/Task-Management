@@ -7,17 +7,18 @@ import type { Task } from '../../types/types';
 interface AddTaskProps{
     open:boolean;
     title:string;
-    onSave: (task:Task) =>void;
+    task:Task|undefined;
+    onSave: (id:number, task:Task) =>void;
     handleClose:() =>void 
 }
 
-export default function AddTask({open,title,onSave,handleClose} :AddTaskProps) {
+export default function AddTask({open,title,task, onSave,handleClose} :AddTaskProps) {
     //  const [open, setOpen] = useState<boolean>(false);
 
     const {register,handleSubmit, formState:{errors}, reset} =  useForm<Task>()
 
-    const handleSave = (task:Task) =>{
-        onSave(task);
+    const handleSave = (newTask:Task) =>{
+        onSave(task==undefined? 0 :task.id, newTask);
         reset();
         handleClose();
     }
@@ -34,11 +35,12 @@ export default function AddTask({open,title,onSave,handleClose} :AddTaskProps) {
      <DialogTitle>{title}</DialogTitle>
         <form onSubmit={handleSubmit(handleSave)} >
             <DialogContent sx={{ display:"flex", flexDirection:"column", gap:3 }}>
-                <TextField sx={{ mt:2 }} type='text' label="Title" {...register("title", {required:"Title is required"})} 
+                <TextField sx={{ mt:2 }} defaultValue={task?.title} type='text' label="Title" {...register("title", {required:"Title is required"})} 
                  error={!! errors.title}
                     helperText= { errors.title?.message?.toString()}
                     />
                     <TextField type='text' label="Decription" {...register("description", {required:"Description is required"})} 
+                    defaultValue={task?.description}
                     error={!! errors.description}
                     helperText= { errors.description?.message?.toString()}
                     multiline
@@ -46,7 +48,7 @@ export default function AddTask({open,title,onSave,handleClose} :AddTaskProps) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button startIcon={<Save/>} type='submit' >Save</Button>
+                    <Button startIcon={<Save/>} type='submit' >{task ? `Update`:`Save` }</Button>
                     <Button startIcon={<Close/>} onClick={handleClose} >Cancel</Button>
                 </DialogActions>
             </form>

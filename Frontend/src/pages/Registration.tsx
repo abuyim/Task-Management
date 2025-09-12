@@ -6,21 +6,19 @@ import { useForm } from 'react-hook-form';
 import useAuthStore from '../stores/useAuthStore';
 
 export default function Registration() {
-    const {registerUser, success} = useAuthStore();
+    const {registerUser, success, errorMsg, successMsg} = useAuthStore();
     const {register, handleSubmit, formState:{errors}, watch} = useForm<RegistrationFormValue>()
     const onRegister = async (data:RegistrationFormValue) => {
-        try {
-            await registerUser(data);
-        } catch (error) {
-            console.error("Error: ", error);
-        }
+        await registerUser(data).then(()=>{
+            window.location.href = "/";
+        }).catch(error=> console.log(error))
     };
   return (
      <Paper elevation={5} sx={{ width:'40%', minWidth:400, mx:"auto", m:5, p:5, mt:2 }}>
-        {success && <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-            User registered successfully successful.
-        </Alert>}
-        <Box component="form" onSubmit={handleSubmit(onRegister)} sx={{ display:"flex", flexDirection:"column", gap:3 }}>
+        {success && <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">{successMsg}</Alert>}
+        {errorMsg && <Alert icon={<CheckIcon fontSize="inherit" />} severity="error">{errorMsg}</Alert>}   
+
+        <Box mt={2} component="form" onSubmit={handleSubmit(onRegister)} sx={{ display:"flex", flexDirection:"column", gap:3 }}>
             <TextField variant="filled" label="Username" type="text"
                 {...register("username",{required:"Username required",
                     minLength:{value:5, message:"Name minimum length should be 5 characters."},

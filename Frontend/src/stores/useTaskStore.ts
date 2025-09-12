@@ -10,6 +10,7 @@ interface TaskState {
     createTask:(task:TaskFormValues)=>Promise<void>;
     updateTask:(id:number, task:Task)=>Promise<void>;
     getTasks:()=>void;
+    deleteTask:(id:number)=>void;
 }
 
 const useTaskStore = create<TaskState>((set)=>({
@@ -41,6 +42,12 @@ const useTaskStore = create<TaskState>((set)=>({
         }).catch((error)=>{
             set({success:false})
             console.log(error.error)
+        })
+    },
+    deleteTask:(id:number)=>{
+        return apiClient.delete(`/tasks/${id}`).then((response)=>{
+            const result = response.data;
+            set({success:result.status==204})
         })
     }
 }));

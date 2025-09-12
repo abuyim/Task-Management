@@ -37,7 +37,9 @@ export interface User {
 export interface AuthResponse{
     token: string;
     expireDuration: string;
-    user: User
+    user: User;
+    success: boolean;
+    message: string;
 }
 
 export interface Task {
@@ -59,4 +61,10 @@ export const TaskStatusOptions  = [
 export interface TaskFormValues {
  title:string;
  description:string
+}
+
+export interface DecodedToken {
+    uniqueName?:string;
+    role?:string;
+    exp?:number;
 }

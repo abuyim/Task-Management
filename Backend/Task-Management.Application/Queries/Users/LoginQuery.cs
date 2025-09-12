@@ -25,11 +25,23 @@ namespace Task_Management.Application.Queries.Users
             var user = await _userRepository.GetUserByUserNameAsync(request.dto.Username);
             if (user == null)
             {
-                throw new Exception("User doesn't exist.");
+                return new AuthResponseDto
+                {
+                    Token = null,
+                    User = null,
+                    Success = false,
+                    Message = "User doesn't exist."
+                };
             }
             if (!BCrypt.Net.BCrypt.Verify(request.dto.Password, user.Password))
             {
-                throw new Exception("InValid Credentials");
+                return new AuthResponseDto
+                {
+                    Token = null,
+                    User = null,
+                    Success = false,
+                    Message = "InValid Credentials."
+                };
             }
             var exp = DateTime.UtcNow.AddHours(6);
             var token = _jwtService.GenerateToken(user, exp);
@@ -39,7 +51,9 @@ namespace Task_Management.Application.Queries.Users
             {
                 User = userDto,
                 Expiration = exp,
-                Token = token
+                Token = token,
+                Success = true,
+                Message = "Logged in Successfully."
             };
 
         }

@@ -57,7 +57,6 @@ namespace Task_Management.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<TaskDto>> CreateTaskAsync([FromBody] CreateTaskDto createTaskdto)
         {

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Paper, Box, Tabs, Tab, Typography } from '@mui/material'
-import { BrowserRouter } from 'react-router-dom'
+import { Paper, Box, Tabs, Tab, Typography, IconButton } from '@mui/material'
+import { BrowserRouter, useNavigate } from 'react-router-dom'
 import Registration from './pages/Registration'
 import Login from './pages/Login'
 import useAuthStore from './stores/useAuthStore'
 import TaskBoard from './pages/tasks/TaskBoard'
+import { Logout } from '@mui/icons-material'
 
 function App() {
   const [tab, setTab] = useState<number>(0);
-
   const {isLoggedIn, validateToken} = useAuthStore();
-  
+ 
   useEffect(()=>{
     validateToken()
   },[])
@@ -28,8 +28,9 @@ function App() {
           {tab===1 && <Registration/>}
         </Box>
       }
-        {isLoggedIn && <Box sx={{ width:"100%", backgroundColor:'#9c9a9aff' }}>
-          <Typography variant='h5' align='left' sx={{ py:3, px:5 }}>Task Board</Typography>
+        {isLoggedIn && 
+          <Box sx={{ width:"100%", backgroundColor:'#d5dfbeff' }}>
+          
           <TaskBoard/>
           </Box>
           }

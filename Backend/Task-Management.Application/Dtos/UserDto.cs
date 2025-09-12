@@ -35,5 +35,7 @@ namespace Task_Management.Application.Dtos
         public UserDto User { get; set; }
         public string Token { get; set; }
         public DateTime Expiration { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
     }
 }
