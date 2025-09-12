@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -28,8 +29,11 @@ services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
 {
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
-services.AddAuthentication("Bearer")
-    .AddJwtBearer("JwtToken", options =>
+services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
     {
         var jwtSettigs = builder.Configuration.GetSection("Jwt");
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -48,6 +52,7 @@ services.AddAuthentication("Bearer")
             RoleClaimType = ClaimTypes.Role
         };
     });
+services.AddAuthorization();
 
 services.AddScoped<ITaskRepository, TaskRepository>();
 services.AddScoped<IUserRepository, UserRepository>();

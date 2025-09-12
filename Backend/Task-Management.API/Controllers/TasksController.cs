@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Task_Management.Application.Commands.Tasks;
 using Task_Management.Application.Dtos;
 using Task_Management.Application.Queries.Tasks;
@@ -9,6 +11,7 @@ namespace Task_Management.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TasksController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -17,10 +20,16 @@ namespace Task_Management.API.Controllers
         {
             _mediator = mediator;
         }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasksAsync()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
             var query = new GetTasksQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -48,29 +57,52 @@ namespace Task_Management.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<TaskDto>> CreateTaskAsync([FromBody] CreateTaskDto createTaskdto)
         {
-            var userId = 1; //int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value) > 0 ? int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value) : 1;
+            var userId = IsValidUser();
+            if (userId == 0)
+                return Unauthorized("User not authenticated");
+
             var command = new CreateTaskCommand(createTaskdto, userId);
             var task = await _mediator.Send(command);
             return Ok(task);
         }
+
         [HttpPut("{Id}")]
         public async Task<ActionResult<TaskDto>> UpdateTaskAsync(int Id, [FromBody] UpdateTaskDto updateTaskdto)
         {
-            var userId = 1; // int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value) > 0 ? int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value) : 1;
+            var userId = IsValidUser();
+            if (userId == 0)
+                return Unauthorized("User not authenticated");
             var command = new UpdateTaskCommand(updateTaskdto, Id, userId);
             var task = await _mediator.Send(command);
             return Ok(task);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteTaskAsync(int Id)
         {
+            var id = IsValidUser();
+            if (id == 0)
+                return Unauthorized("User not authenticated");
+
             var command = new DeleteTaskCommand(Id);
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        private int IsValidUser()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return 0;
+            }
+            return int.Parse(userId);
         }
 
     }
