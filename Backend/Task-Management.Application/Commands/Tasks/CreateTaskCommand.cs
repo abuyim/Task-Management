@@ -8,11 +8,11 @@ namespace Task_Management.Application.Commands.Tasks
 {
     public record CreateTaskCommand(CreateTaskDto TaskDto, int UserId) : IRequest<TaskDto>;
 
-    public class CreateTaskCOmmmandHandler : IRequestHandler<CreateTaskCommand, TaskDto>
+    public class CreateTaskCommmandHandler : IRequestHandler<CreateTaskCommand, TaskDto>
     {
         private readonly ITaskRepository _repository;
         private readonly IMapper _mapper;
-        public CreateTaskCOmmmandHandler(ITaskRepository reporsitory, IMapper mapper)
+        public CreateTaskCommmandHandler(ITaskRepository reporsitory, IMapper mapper)
         {
             _repository = reporsitory;
             _mapper = mapper;

@@ -3,9 +3,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Task_Management.Application.Interfaces;
 using Task_Management.Domain.Models;
 
-namespace Task_Management.Application.Services
+namespace Task_Management.Infrastructure.Services
 {
     public class JwtService : IJwtService
     {

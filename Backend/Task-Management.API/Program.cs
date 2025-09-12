@@ -5,9 +5,9 @@ using System.Security.Claims;
 using Task_Management.Application.Commands.Users;
 using Task_Management.Application.Interfaces;
 using Task_Management.Application.Mapping;
-using Task_Management.Application.Services;
 using Task_Management.Infrastructure;
 using Task_Management.Infrastructure.Repository;
+using Task_Management.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

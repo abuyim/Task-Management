@@ -2,7 +2,6 @@
 using MediatR;
 using Task_Management.Application.Dtos;
 using Task_Management.Application.Interfaces;
-using Task_Management.Application.Services;
 
 namespace Task_Management.Application.Queries.Users
 {
