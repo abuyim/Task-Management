@@ -60,7 +60,6 @@ const useAuthStore = create<AuthState>((set)=>({
         localStorage.removeItem('token');
         return apiClient.post<AuthResponse>("/auth",data).then((response)=>{
             const result = response.data
-            debugger;
             if(result.success)
             {
                 const role = getDecodeToken(result.token)?.role;
